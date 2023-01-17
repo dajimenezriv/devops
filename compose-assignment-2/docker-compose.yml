@@ -1,0 +1,37 @@
+services:
+  drupal:
+    image: custom-drupal
+    build: .
+    ports:
+      - '8080:80'
+    networks:
+      - custom
+    volumes:
+      - drupal-modules:/var/www/html/modules
+      - drupal-profiles:/var/www/html/profiles       
+      - drupal-sites:/var/www/html/sites      
+      - drupal-themes:/var/www/html/themes
+
+  # use this as host in drupal configuration instead of localhost
+  postgres:
+    image: postgres:14.3
+    environment:
+      - POSTGRES_DB=database
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+    networks:
+      - custom
+    volumes:
+      - drupal-data:/var/lib/postgresql/data
+
+# in this case we don't need to use networks
+networks:
+  custom:
+    driver: bridge
+
+volumes:
+  drupal-modules:
+  drupal-profiles:
+  drupal-sites:
+  drupal-themes:
+  drupal-data:
