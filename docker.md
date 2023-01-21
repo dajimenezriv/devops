@@ -25,6 +25,8 @@ docker rm -vf $(docker ps -aq)
 # delete all images
 docker image prune
 docker rmi -f $(docker images -aq)
+# clean also cache
+docker rm -vf $(docker ps -aq) && docker rmi -f $(docker images -aq) && docker system prune -a
 ```
 
 ## Runing bash inside the container
